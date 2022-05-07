@@ -6,7 +6,7 @@ router.get('/',(req,res)=>{
     //     res.redirect('/');
     //     return
     // }
-    res.render('login')
+    res.render('register')
 })
 
 module.exports = router;
