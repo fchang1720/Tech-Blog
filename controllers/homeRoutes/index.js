@@ -13,13 +13,16 @@ router.get('/', async (req,res) => {
         res.json(err);
     });
     const posts = postData.map((postInfo) => postInfo.get({ plain: true }));
-    console.log(posts)
+    
     res.render('homepage', {posts})
 });
 
-router.get('/:id', async (req, res) => {
-    const postData = await Post.findByPk(req.params.id);
-    return res.json(postData);
+router.get('/post/:id', async (req, res) => {
+    const postData = await Post.findByPk(req.params.id).catch((err) => {
+        res.json(err);
+    });
+    const posts = postData.get({ plain: true });
+    return res.json(posts);
 });
 
 router.post('/', async (req, res) => {
