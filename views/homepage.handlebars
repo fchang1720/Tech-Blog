@@ -3,12 +3,14 @@ See All User posts here.
 <div>
     <div class="card pantryCard"style="max-width: 50rem;">
         <div>
-            <h3 class="req_list"></h3>
-                <div >
-                    <ul id = "blog_posts">
             
-                    </ul>
+            <h3 class="post_list"></h3>
+                {{#each posts as |post|}}
+                <div >
+                    <h2 id="postTitle">{{post.title}}</h2>
+                    <h4 id="postContent">{{post.content}}</h4>
                 </div>
+                {{/each}}
         </div>
 
         <div>
@@ -18,3 +20,4 @@ See All User posts here.
     </div>
     <span class = "editDeleteMessage"> </span>
 </div>
+<script src="./js/home.js"></script>

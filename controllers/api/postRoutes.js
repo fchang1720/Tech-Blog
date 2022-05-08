@@ -4,8 +4,12 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
 router.get('/', async (req,res) => {
-    const postData = await Post.findAll();
-    return res.json(postData)
+    const postData = await Post.findAll().catch((err) => {
+        res.json(err);
+    });
+    const posts = postData.map((postInfo) => postInfo.get({ plain: true }));
+    console.log(posts)
+    res.render('homepage', {posts})
 });
 
 router.get('/:id', async (req, res) => {
@@ -38,7 +42,7 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
     const postData = await Post.destroy({
         where: {
-            id: req.params.book_id,
+            id: req.params.id,
         },
     });
 
