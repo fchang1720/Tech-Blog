@@ -17,10 +17,10 @@ router.get('/', async (req,res) => {
                     model: User,
                     attributes: ['user_name'],
                 },
-                // {
-                //     model: Comment,
-                //     attributes: ['id', 'comment_content', 'user_id', 'post_id'],
-                // },
+                {
+                    model: Comment,
+                    attributes: ['id', 'comment_content', 'user_id', 'post_id'],
+                },
             ],
         });
 
@@ -36,14 +36,35 @@ router.get('/', async (req,res) => {
     }
 })
 
-
 router.get('/post/:id', async (req, res) => {
-    const postData = await Post.findByPk(req.params.id).catch((err) => {
-        res.json(err);
-    });
-    const posts = postData.get({ plain: true });
-    return res.json(posts);
-});
+    try{
+    const dbPostData = await Post.findOne({
+            where: {
+                id: req.params.id
+            },
+
+            include: [
+                {
+                    model: User,
+                    attributes: ['user_name'],
+                },
+                {
+                    model: Comment,
+                    attributes: ['id', 'comment_content', 'user_id', 'post_id'],
+                },
+            ]
+        })
+        const post =  dbPostData.get({ plain: true})
+
+        // res.json(post)
+        res.render('single', {
+            post,
+        })
+    } catch (err) {
+        res.status(500).json(err);
+    }
+})
+
 
 router.post('/', async (req, res) => {
     const postData = await Post.create(req.body);

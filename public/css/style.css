@@ -22,10 +22,24 @@
 .postBtn{
       display: flex;
       justify-content: center;
+      
 }
 
 .Btn{
     padding: 5px;
-    margin: 0px 20px 10px 20px;
+    margin: 0px 20px 0px 20px;
     width: 40%;
+}
+.commentLink{
+    display: flex;
+    justify-content: end;
+    
+}
+.commentTag{
+    padding: 5px;
+    margin: 0px 20px 0px 20px;
+}
+.commentTag2{
+    padding: 5px;
+    margin: 10px 20px 0px 20px;
 }
