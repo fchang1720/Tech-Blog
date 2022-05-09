@@ -56,7 +56,7 @@ router.get('/post/:id', async (req, res) => {
         })
         const post =  dbPostData.get({ plain: true})
 
-        // res.json(post)
+        console.log(post)
         res.render('single', {
             post,
         })
@@ -67,8 +67,10 @@ router.get('/post/:id', async (req, res) => {
 
 
 router.post('/', async (req, res) => {
+    if (req.session.loggedIn){
     const postData = await Post.create(req.body);
     return res.json(postData);
+    }
 });
 
 router.put('/:id', async (req, res) => {
