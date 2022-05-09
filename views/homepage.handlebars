@@ -7,20 +7,7 @@
     
             
         {{#each posts as |post|}}
-        <div class="postBoxContainer">
-            <div class="postBox card">
-
-                <div class="card post1" >
-                    <h2 id="postTitle">{{post.title}}</h2>
-                    <h4 id="postContent">{{post.content}}</h4>
-                </div>
-
-                <div class="postBtn">
-                    <button class = "supply_list Btn" type = "submit">Comment</button>
-                </div>
-
-            </div>
-        </div>
+        {{>post-details}}
         {{/each}}
 
        
