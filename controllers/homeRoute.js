@@ -1,12 +1,21 @@
 const router = require('express').Router();
-const loginRoutes = require("./login.js");
-const dashBoardRoutes = require("./dashboard.js")
-const registerRoutes = require("./register.js")
-const {User, Post, Comment} = require('../../models')
 
-router.use("/login",loginRoutes)
+const dashBoardRoutes = require("./dashboard")
+
+const {User, Post, Comment} = require('../models')
+
+
 router.use("/dashBoard",dashBoardRoutes)
-router.use("/register", registerRoutes)
+
+
+router.get("/dashBoard",(req,res)=>{
+    if (req.session.loggedIn){
+        res.render('dashboard')
+    }
+    else{
+        res.redirect("/login")
+    }
+});
 
 
 router.get('/', async (req,res) => {
@@ -15,7 +24,7 @@ router.get('/', async (req,res) => {
             include: [
                 {
                     model: User,
-                    attributes: ['user_name'],
+                    attributes: ['username'],
                 },
                 {
                     model: Comment,
@@ -46,7 +55,7 @@ router.get('/post/:id', async (req, res) => {
             include: [
                 {
                     model: User,
-                    attributes: ['user_name'],
+                    attributes: ['username'],
                 },
                 {
                     model: Comment,
@@ -98,6 +107,15 @@ router.delete('/:id', async (req, res) => {
     });
 
     return res.json(postData);
+});
+
+router.get('/login', (req, res) => {
+  if (req.session.loggedIn) {
+    res.redirect('/');
+    return;
+  }
+
+  res.render('login');
 });
 
 module.exports = router;

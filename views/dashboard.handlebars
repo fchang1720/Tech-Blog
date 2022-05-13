@@ -1,26 +1,11 @@
+<header>
+    <h1>Hello Hello</h1>
+
+</header>
 
 
-<div class="row pantryStuff">
-    <div class="card pantryCard" style="max-width: 30rem;">
-        <div class="card-body pantryInfo">
-            <h2 id="name">User:</h2>
-        </div>
-    </div>
-
-    <div class="card pantryCard"style="max-width: 50rem;">
-        <div>
-            <h3 class="req_list"></h3>
-                <div >
-                    <ul id = "blog_posts">
+    
             
-                    </ul>
-                </div>
-        </div>
-
-        <div>
-            <button class = "supply_list pantryBtn" type = "submit">Edit Supply Request List</button>
-        </div>
-
-    </div>
-    <span class = "editDeleteMessage"> </span>
-</div>
+        {{#each posts as |post|}}
+        {{>post-details}}
+        {{/each}}

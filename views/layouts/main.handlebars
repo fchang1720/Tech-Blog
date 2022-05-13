@@ -36,12 +36,14 @@
                 </li>
 
                 <li class="nav-item active">
- 
+                    {{#if loggedIn}}
                     <a class="nav-link nav-text" id="loginText" style="color: black;" href="/dashBoard">Dashboard</a>
-                </li>
-
-                <li>
+                    {{else}}
+                    {{#if onLogin}}
+                    {{else}}
                     <a class="nav-link nav-text" id="loginText" style="color: black;" href="/login">Login</a>
+                    {{/if}}
+                    {{/if}}                
                 </li>
                 <li class="nav-item active">
                     {{#if loggedIn}}
