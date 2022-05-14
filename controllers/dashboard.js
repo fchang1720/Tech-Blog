@@ -1,10 +1,11 @@
 const router = require('express').Router();
-const {User, Post, Comment} = require('../models');
+const { Post, User, Comment } = require('../models');
+const logged = require('../utils/logged');
 
-
-router.get('/', async (req,res) => {
+router.get('/', async(req, res) => {
     try {
-        const dbPostData = await Post.findAll({
+    const dbPostData = await Post.findAll({
+            // where: {user_id: req.session.user_id},
             include: [
                 {
                     model: User,
@@ -27,7 +28,33 @@ router.get('/', async (req,res) => {
     } catch (err) {
         res.status(500).json(err);
     }
-})
+        //     where: {
+        //         user_id: req.session.user_id
+        //     },
+        //     attributes: ['id','title','content','created_at'],
+        //     include: [{
+        //             model: Comment,
+        //             attributes: ['id', 'comment_content', 'post_id', 'user_id'],
+        //             include: {
+        //                 model: User,
+        //                 attributes: ['username']
+        //             }
+        //         },
+        //         {
+        //             model: User,
+        //             attributes: ['username']
+        //         }
+        //     ]
+        // })
+        // .then(dbPostData => {
+        //     const posts = dbPostData.map(post => post.get({ plain: true }));
+        //     res.render('dashboard', { posts, loggedIn: true });
+        // })
+        // .catch(err => {
+        //     console.log(err);
+        //     res.status(500).json(err);
+        });
+
 router.get('/edit/:id', (req, res) => {
     Post.findOne({
             where: {
@@ -45,7 +72,10 @@ router.get('/edit/:id', (req, res) => {
                 {
                     model: Comment,
                     attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
-
+                    include: {
+                        model: User,
+                        attributes: ['username']
+                    }
                 }
             ]
         })
@@ -67,31 +97,6 @@ router.get('/new', (req, res) => {
     res.render('new-post');
 });
 
-// router.get('/dashBoard/:id', async (req,res)=>{
-//     // if (!req.session.logged_in){
-//     //     res.redirect('/login');
-//     // } else{
-//         try{
-//             const dbUserData = await User.findByPk(req.params.id, {
-//                 include: [
-//                     {
-//                         model: Post,
-//                         attributes: [
-//                             'id',
-//                             'title',
-//                             'content',
-//                         ]
-//                     }
-//                 ]
-//             });
-//             const user = dbUserData.get({ plain: true });
-//             res.render('dashboard', { user, loggedIn: req.session.loggedIn });
-//           } catch (err) {
-//             console.log(err);
-//             res.status(500).json(err);
-//         //   }
-//         }
-    
-// })
+
 
 module.exports = router;

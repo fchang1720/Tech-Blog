@@ -9,7 +9,7 @@ const postData = [
     {
         title: 'Thoughts about the Razer blade 15 laptop?',
         content: "So far, I'm liking this laptop a lot. Have you guys encountered any issues?",
-        user_id: 1
+        user_id: 2
     },
     {
         title: 'Iphone memory Storage.',

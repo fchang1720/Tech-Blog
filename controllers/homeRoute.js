@@ -1,11 +1,13 @@
 const router = require('express').Router();
 
 const dashBoardRoutes = require("./dashboard")
+const newPostRoute = require("./newPost")
 
 const {User, Post, Comment} = require('../models')
 
 
 router.use("/dashBoard",dashBoardRoutes)
+router.use("/dashBoard/newPost", newPostRoute)
 
 
 router.get("/dashBoard",(req,res)=>{
@@ -114,8 +116,9 @@ router.get('/login', (req, res) => {
     res.redirect('/');
     return;
   }
-
+  
   res.render('login');
+  
 });
 
 module.exports = router;

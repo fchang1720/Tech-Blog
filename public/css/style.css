@@ -43,3 +43,14 @@
     padding: 5px;
     margin: 10px 20px 0px 20px;
 }
+
+.commentBoxContainer{
+    display: flex;
+    justify-content: center;
+}
+.commentBox{
+    display: flex;
+
+    width: 80%;
+    margin: 10px 20px 10px 20px;
+}
