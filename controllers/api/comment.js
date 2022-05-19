@@ -1,9 +1,10 @@
 const router = require('express').Router()
 const {Comment} = require("../../models")
+const logged = require('../../utils/logged')
 
-router.post("/", async (req,res) => {
+router.post("/", logged, async (req,res) => {
     try{
-        console.log(req.body);
+        
         const newRequest = await Comment.create({
     
         comment_content: req.body.comment_content
@@ -14,7 +15,7 @@ router.post("/", async (req,res) => {
     }
 })
 
-router.put("/:id", async (req,res) => {
+router.put("/:id", logged, async (req,res) => {
     try{
         console.log(req.body);
         const requestData = await Comment.update(req.body, {

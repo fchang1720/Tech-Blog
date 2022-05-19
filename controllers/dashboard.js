@@ -2,10 +2,10 @@ const router = require('express').Router();
 const { Post, User, Comment } = require('../models');
 const logged = require('../utils/logged');
 
-router.get('/', async(req, res) => {
+router.get('/', logged, async(req, res) => {
     try {
     const dbPostData = await Post.findAll({
-            // where: {user_id: req.session.user_id},
+            where: {user_id: req.session.user_id},
             include: [
                 {
                     model: User,
@@ -21,10 +21,12 @@ router.get('/', async(req, res) => {
         const posts = dbPostData.map((post) => 
         post.get({ plain: true})
         );
+        if(req.session.loggedIn) {
+            res.render('dashboard', {
+                posts,
+            })
+        }
 
-        res.render('dashboard', {
-            posts,
-        })
     } catch (err) {
         res.status(500).json(err);
     }
@@ -55,7 +57,7 @@ router.get('/', async(req, res) => {
         //     res.status(500).json(err);
         });
 
-router.get('/edit/:id', (req, res) => {
+router.get('/edit/:id', logged, (req, res) => {
     Post.findOne({
             where: {
                 id: req.params.id
@@ -93,8 +95,8 @@ router.get('/edit/:id', (req, res) => {
             res.status(500).json(err);
         });
 })
-router.get('/new', (req, res) => {
-    res.render('new-post');
+router.get('/newPost', logged, (req, res) => {
+    res.render('newPost');
 });
 
 

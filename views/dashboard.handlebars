@@ -1,1 +1,6 @@
-<a href="/dashBoard/newPost">Click here to create new post</a>
+<h2>My Posts:</h2>
+<a href="/dashboard/newPost">Click here to create new post</a>
+
+        {{#each posts as |post|}}
+        {{>post-details}}
+        {{/each}}

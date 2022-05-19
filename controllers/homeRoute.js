@@ -1,23 +1,20 @@
 const router = require('express').Router();
-
-const dashBoardRoutes = require("./dashboard")
-const newPostRoute = require("./newPost")
-
 const {User, Post, Comment} = require('../models')
+const logged = require('../utils/logged')
 
 
-router.use("/dashBoard",dashBoardRoutes)
-router.use("/dashBoard/newPost", newPostRoute)
 
 
-router.get("/dashBoard",(req,res)=>{
-    if (req.session.loggedIn){
-        res.render('dashboard')
-    }
-    else{
-        res.redirect("/login")
-    }
-});
+
+
+// router.get("/dashBoard", logged, (req,res)=>{
+//     if (req.session.loggedIn){
+//         res.render('dashboard')
+//     }
+//     else{
+//         res.redirect("/login")
+//     }
+// });
 
 
 router.get('/', async (req,res) => {
@@ -41,6 +38,7 @@ router.get('/', async (req,res) => {
 
         res.render('homepage', {
             posts,
+            loggedIn: req.session.loggedIn
         })
     } catch (err) {
         res.status(500).json(err);
@@ -77,14 +75,14 @@ router.get('/post/:id', async (req, res) => {
 })
 
 
-router.post('/', async (req, res) => {
+router.post('/', logged, async (req, res) => {
     if (req.session.loggedIn){
     const postData = await Post.create(req.body);
     return res.json(postData);
     }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', logged, async (req, res) => {
     const postData = await Post.update(
        {
            title: req.body.title,
@@ -101,7 +99,7 @@ router.put('/:id', async (req, res) => {
     return res.json(postData);
 })
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', logged, async (req, res) => {
     const postData = await Post.destroy({
         where: {
             id: req.params.id,
